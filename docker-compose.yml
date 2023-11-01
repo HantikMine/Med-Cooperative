@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    volumes:
+      - ./app:/app
+  db:
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=medcoop
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata: {}
