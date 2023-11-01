@@ -1,9 +1,14 @@
-SECRET_KEY = 'ajbsdiuabsidubasdiubasihdasdasdasd'
+from flask import Flask
 
-MYSQL_USER = 'std_2191_exam'
-MYSQL_PASSWORD = '11111111'
-MYSQL_HOST = 'std-mysql.ist.mospolytech.ru'
+app = Flask(__name__)
+
+SECRET_KEY = 'ajbsdiuabsidubasdiubasihdasdasdasd'
+MYSQL_USER = 'user'
+MYSQL_PASSWORD = 'password'
 MYSQL_DATABASE = 'std_2191_exam'
+app.config["MYSQL_HOST"] = "${MYSQL_HOST}"
+
+
 
 ADMINISTRATOR_ROLE_ID = 1
 MODERATOR_ROLE_ID = 2

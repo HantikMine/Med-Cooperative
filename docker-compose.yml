@@ -9,13 +9,14 @@ services:
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
+      - MYSQL_HOST=db
     volumes:
       - ./app:/app
   db:
     image: mysql/mysql-server:latest
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=medcoop
+      - MYSQL_DATABASE=std_2191_exam
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     volumes:
