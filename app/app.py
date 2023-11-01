@@ -10,7 +10,10 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 application = app
-
+app.config['MYSQL_DATABASE_USER'] = 'user'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
+app.config['MYSQL_DATABASE_DB'] = 'std_2191_exam'
+app.config['MYSQL_DATABASE_HOST'] = os.getenv('MYSQL_HOST', 'db')
 BOOKS_NUM = 3
 ALL_PARAMS = ["title", "description", "year", "publisher", "author", "size"]
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
