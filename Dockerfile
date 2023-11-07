@@ -1,5 +1,9 @@
-FROM python:3.9-slim-buster
+FROM mysql:latest
+ENV MYSQL_ROOT_PASSWORD root
+COPY ./mysql/privileges.sql /docker-entrypoint-initdb.d/
+CMD ["mysql", "-u", "-ppassword", "medcoop", "<", "database.sql"]
 
+FROM python:3.9-slim-buster
 WORKDIR /app
 
 RUN apt-get update
