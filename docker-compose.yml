@@ -10,6 +10,8 @@ services:
       - FLASK_APP=app.py
       - FLASK_ENV=development
       - MYSQL_HOST=${mysql_host}
+    links:
+      - db
     volumes:
       - ./app:/app
   db:
