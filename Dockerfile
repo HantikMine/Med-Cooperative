@@ -1,12 +1,11 @@
-FROM mysql:latest
-ENV MYSQL_ROOT_PASSWORD root
+FROM python:3.9-slim-buster
+
 COPY ./mysql/privileges.sql /docker-entrypoint-initdb.d/
 
-FROM python:3.9-slim-buster
 WORKDIR /app
 
-RUN apt-get update
-RUN apt-get install python3-dev default-libmysqlclient-dev gcc  -y
+RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev gcc  -y \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
