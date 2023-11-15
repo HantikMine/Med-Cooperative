@@ -1,7 +1,5 @@
 FROM python:3.9-slim-buster
 
-COPY ./mysql/privileges.sql /docker-entrypoint-initdb.d/
-
 COPY . .
 
 WORKDIR /app

@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS medcooperative;
+USE medcooperative;
 CREATE USER 'user'@'%' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'%';
 FLUSH PRIVILEGES;
