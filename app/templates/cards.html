@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex ms-2 my-2 align-items-center">
+    <form enctype="multipart/form-data" action="{{url_for('cards')}}" method="post">
+        <div class="d-flex ms-2 my-2">
+            <div class="d-flex mx-2 align-items-center">
+                <label for="inputDate"><b>Дата</b></label>
+                <input type="text" class="mx-1 form-control border border-primary" id="inputDate" name="date" value="{{ date or '' }}">
+            </div>
+            <div class="d-flex mx-2 align-items-center">
+                <label for="inputDisease"><b>Болезнь</b></label>
+                <input type="text" class="mx-1 form-control border border-primary" id="inputDisease" name="disease" value="{{ disease or '' }}">
+            </div>
+            <div class="text-center mx-2">
+                <button type="submit" class="btn btn-dark">Поиск</button>
+            </div>
+        </div>
+    </form>
+    <div class="mx-4">
+        <label for="inputDate"><b>Количество найденных карточек: {{ cards|length }}</b></label>
+    </div>
+</div>
+<table class="table table table-bordered table-primary">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                ФИО ВРАЧА
+            </th>
+            <th>
+                ФИО БОЛЬНОГО
+            </th>
+            <th>
+                СИМПТОМЫ
+            </th>
+            <th>
+                ДИАГНОЗ
+            </th>
+            <th>
+                ПРЕДПИСАНИЯ
+            </th>
+            <th>
+                АДРЕС
+            </th>
+            <th>
+                ДАТА
+            </th>
+        </tr>        
+    </thead>
+    <tbody>
+        {% for card in cards %}
+        <tr>    
+            <td>
+                {{ card.id }}
+            </td>
+            <td>
+                {{ card.doctor_name }}
+            </td>
+            <td>
+                {{ card.patient_name }}
+            </td>
+            <td>
+                {{ card.symptoms }}
+            </td>
+            <td>
+                {{ card.disease_name }}
+            </td>
+            <td>
+                {{ card.drug_name }}
+            </td>
+            <td>
+                {{ card.address }}
+            </td>
+            <td>
+                {{ card.date.strftime('%d.%m.%Y') }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

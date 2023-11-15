@@ -10,15 +10,13 @@ services:
       - FLASK_APP=app.py
       - FLASK_ENV=development
       - MYSQL_HOST=${mysql_host}
-    links:
-      - db
     volumes:
       - ./app:/app
   db:
-    image: mysql/mysql-server:latest
+    image: mysql/mysql-server:8.0.32
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=std_2191_exam
+      - MYSQL_DATABASE=medcooperative
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password 
     volumes:

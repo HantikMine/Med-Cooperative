@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex ms-2 my-2 align-items-center">
+    <form enctype="multipart/form-data" action="{{url_for('drugs')}}" method="post">
+        <div class="d-flex ms-2 my-2">
+            <div class="d-flex mx-2 align-items-center">
+                <label for="inputDrug"><b>Лекарство</b></label>
+                <input type="text" class="mx-1 form-control border border-primary" id="inputDrug" name="drug" value="{{ drug or '' }}">
+            </div>
+            <div class="text-center mx-2">
+                <button type="submit" class="btn btn-dark">Поиск</button>
+            </div>
+        </div>
+    </form>
+    <div class="d-flex justify-content-center mx-5">
+        <div class="text-center">
+          <a href="{{ url_for('add_drug') }}" class="btn btn-info">Добавить лекарство</a>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-primary">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                НАЗВАНИЕ
+            </th>
+            <th>
+                СПОСОБ ПРИЁМА
+            </th>
+            <th>
+                ПРЕДПОЛАГАЕМОЕ ДЕЙСТВИЕ
+            </th>
+            <th>
+                ВОЗМОЖНЫЕ ПОБОЧНЫЕ ЭФФЕКТЫ
+            </th>
+        </tr>        
+    </thead>
+    <tbody>
+        {% for drug in drugs %}
+        <tr>    
+            <td>
+                {{ drug.id }}
+            </td>
+            <td>
+                {{ drug.name}}
+            </td>
+            <td>
+                {{ drug.method}}
+            </td>
+            <td>
+                {{ drug.assumption }}
+            </td>
+            <td>
+                {{ drug.sideeffects }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

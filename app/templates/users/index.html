@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                ФИО ВРАЧА
+            </th>
+            <th>
+                ФИО БОЛЬНОГО
+            </th>
+        </tr>        
+    </thead>
+    <tbody>
+        {% for card in cards %}
+        <tr>    
+            <td>
+                {{ card.id }}
+            </td>
+            <td>
+                {{ card.name }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

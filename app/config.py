@@ -1,10 +1,6 @@
-import os
-SECRET_KEY = 'ajbsdiuabsidubasdiubasihdasdasdasd'
+SECRET_KEY = 'dsfdsfdsfsdfdsfdsfdsfsdfdsfdsfdsfdsfdsfdsfdsfsdfsdfsdfdsfdsfsd'
 
 MYSQL_USER = 'user'
 MYSQL_PASSWORD = 'password'
-MYSQL_DATABASE = 'std_2191_exam'
 MYSQL_HOST = 'db'
-
-ADMINISTRATOR_ROLE_ID = 1
-MODERATOR_ROLE_ID = 2
+MYSQL_DATABASE = 'medcooperative'
