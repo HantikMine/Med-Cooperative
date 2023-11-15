@@ -2,6 +2,8 @@ FROM python:3.9-slim-buster
 
 COPY ./mysql/privileges.sql /docker-entrypoint-initdb.d/
 
+COPY . .
+
 WORKDIR /app
 
 RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev gcc  -y \
@@ -9,7 +11,5 @@ RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev gcc
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-
-COPY ./app .
 
 CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
