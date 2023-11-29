@@ -9,8 +9,6 @@ services:
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
-    volumes:
-      - ./app:/app
   db:
     image: mysql/mysql-server:8.0.32
     environment:
@@ -21,6 +19,6 @@ services:
     command: --init-file /data/application/init.sql
     volumes:
       - dbdata:/var/lib/mysql
-      - ./mysql/init.sql:/data/application/init.sql
+      - ./init.sql:/data/application/init.sql
 volumes:
   dbdata: {}
