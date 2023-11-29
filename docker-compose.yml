@@ -1,28 +1,28 @@
 version: '3'
 services:
-  app:
-    build:
-      context: .
-    image: hantikmine/medcooperative:latest
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
-    volumes:
-      - ./app:/app
-  db:
-    image: mysql/mysql-server:8.0.32
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=medcooperative
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password 
-    command: --init-file /data/application/init.sql
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./mysql/init.sql:/data/application/init.sql
+    app:
+        build:
+            context: .
+        image: hantikmine/medcooperative:latest
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
+        environment:
+            - FLASK_APP=app.py
+            - FLASK_ENV=development
+        volumes:
+            - ./app:/app
+    db:
+        image: mysql/mysql-server:8.0.32
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=medcooperative
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=password 
+        command: --init-file /data/application/init.sql
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./mysql/init.sql:/data/application/init.sql
 volumes:
-  dbdata: {}
+    dbdata: {}
