@@ -3,9 +3,9 @@
 {% block content %}
 {% if current_user.is_authenticated %}
     <script>
-        window.location.href = '/cards';
+        setTimeout(() => {  window.location.href = '/cards'; }, 5000);
     </script>
 {% else %}
-    Вы не авторизованы 2
+    Вы не авторизованы
 {% endif %}
 {% endblock %}
