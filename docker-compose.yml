@@ -14,6 +14,7 @@ services:
     volumes:
       - ./app:/app
   db:
+    container_name: medcooperative_db
     image: mysql/mysql-server:8.0.32
     environment:
       - MYSQL_ROOT_PASSWORD=password
