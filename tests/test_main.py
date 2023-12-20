@@ -12,7 +12,6 @@ from config import HOST_IP
 def test_main():
    options = webdriver.ChromeOptions()
 
-   options.add_experimental_option("excludeSwitches", ["enable-logging"])
    options.add_argument('--headless')
    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
