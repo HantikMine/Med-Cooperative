@@ -16,7 +16,7 @@ def test_main():
    options.add_argument("--remote-debugging-port=9222")
    options.add_argument('--headless')
    options.add_argument("--disable-dev-shm-usage")
-   driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+   driver = webdriver.Chrome(service="/usr/bin/chromium-browser", options=options)
 
    driver.maximize_window()
    driver.implicitly_wait(60)
