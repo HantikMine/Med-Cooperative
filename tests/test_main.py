@@ -12,6 +12,7 @@ from config import HOST_IP
 def test_main():
    options = webdriver.ChromeOptions()
 
+   options.add_argument('--no-sandbox')
    options.add_experimental_option("excludeSwitches", ["enable-logging"])
    options.add_argument("--remote-debugging-port=9222")
    options.add_argument('--headless')
