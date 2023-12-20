@@ -22,5 +22,6 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
       - ./mysql/init.sql:/data/application/init.sql
+
 volumes:
   dbdata: {}
