@@ -3,7 +3,6 @@ services:
   app:
     container_name: medcooperative_app
     build: .
-    image: hantikmine/medcooperative:test
     ports:
       - "5000:5000"
     depends_on:
