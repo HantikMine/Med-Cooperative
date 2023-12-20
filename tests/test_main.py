@@ -1,13 +1,17 @@
 import pytest
-from selenium import webdriver 
+from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import time, sys
 from selenium.webdriver.common.by import By
 
-from auth import authorization
 from config import HOST_IP
 
+from login import login
+from checkRights import checkRights
+from addDrug import addDrug
+from deleteDrug import deleteDrug
+from findDrug import findDrug
 
 def test_main():
    options = webdriver.ChromeOptions()
@@ -24,8 +28,20 @@ def test_main():
    
    driver.get(HOST_IP)
 
-   result_authorization = authorization(driver=driver)
-   assert result_authorization == True, "Ошибка в авторизации."
+   result_login = login(driver=driver)
+   assert result_login == True, "Ошибка аунтефикации."
+
+   result_addDrug = addDrug(driver=driver)
+   assert result_addDrug == True, "Ошибка добавления лекарства."
+
+   result_findDrug = findDrug(driver=driver)
+   assert result_findDrug == True, "Ошибка поиска лекарства."
+
+   result_deleteDrug = deleteDrug(driver=driver)
+   assert result_deleteDrug == True, "Ошибка удаления лекарства."
+
+   result_checkRights = checkRights(driver=driver)
+   assert result_checkRights == True, "Ошибка неавторизованного доступа."
 
    driver.close()
    driver.quit()

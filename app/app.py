@@ -39,21 +39,24 @@ def cards():
     cards = []
     try:
         query_params = []
-        test = date!=None and len(date)>0
+        test = date is not None and len(date) > 0
         if test:
-            query += " WHERE card.date = %s"
-            date_object = datetime.strptime(date, '%d.%m.%Y').date()
-            query_params.append(date_object)
-        if disease!=None and len(disease)>0:
+            query += " WHERE DATE_FORMAT(card.date, '%d.%m.%Y') LIKE %s"
+            query_params.append(f"%{date}%")
+
+        if disease is not None and len(disease) > 0:
             query += " AND" if test else " WHERE"
-            query += " disease.name = %s"
-            query_params.append(disease)
-        with db.connection.cursor(named_tuple = True) as cursor:
-            cursor.execute(query, query_params,)
+            query += " disease.name LIKE %s"
+            query_params.append(f"%{disease}%")
+
+        with db.connection.cursor(named_tuple=True) as cursor:
+            cursor.execute(query, query_params)
             cards = cursor.fetchall()
+
     except:
-        flash("Дата должна быть указана в формате %d.%m.%Y",'danger')
-    return render_template('cards.html', cards = cards, date = date, disease = disease)
+        flash("Дата должна быть указана в формате %d.%m.%Y", 'danger')
+
+    return render_template('cards.html', cards=cards, date=date, disease=disease)
 
 @app.route('/add_drug', methods=['GET'])
 @login_required
@@ -79,33 +82,62 @@ def create_drug():
             return render_template("add_drug.html", drug = drug)
 
     try:
-        query = """
-        INSERT INTO drug (name, method, assumption, sideeffects) 
-        VALUES (%s, %s, %s, %s);
-        """
+        query = "SELECT * FROM drug WHERE name = %s;"
         with db.connection.cursor(named_tuple = True) as cursor:
+                    cursor.execute(query,(cur_params['name'],)) 
+                    res = cursor.fetchone()
+        if res and res.deleted_at:
+            query = "UPDATE drug SET name=%s, method=%s, assumption=%s, sideeffects=%s, deleted_at=NULL WHERE name=%s;"
+        else:          
+            query = """
+                    INSERT INTO drug (name, method, assumption, sideeffects, deleted_at) 
+                    VALUES (%s, %s, %s, %s, NULL);
+                    """
+        with db.connection.cursor(named_tuple = True) as cursor:
+                if res and res.deleted_at:
+                    cursor.execute(query,(cur_params['name'],cur_params['method'],cur_params['assumption'],cur_params['sideeffects'],cur_params['name'],))
+                else:
                     cursor.execute(query,(cur_params['name'],cur_params['method'],cur_params['assumption'],cur_params['sideeffects'],)) 
-                    db.connection.commit()
-                    book_id = cursor.lastrowid
+                db.connection.commit()
 
         flash(f"Лекарство '{cur_params['name']}' успешно добавлено", "success")
     except Exception as err:
         db.connection.rollback()
         print(err)
         flash("При добавлении возникла ошибка", "danger")
-        return render_template("add.html", drug = drug)
+        redirect(url_for('drugs'))
     return redirect(url_for('drugs'))
+
+@app.route('/delete_drug/<int:drug_id>/<string:drug_name>',methods=['POST'])
+@login_required
+def delete_drug(drug_id, drug_name):
+    try:
+        query = """
+                UPDATE drug
+                SET deleted_at = CURRENT_TIMESTAMP
+                WHERE id = %s;
+                """
+        with db.connection.cursor(named_tuple = True) as cursor:
+                    cursor.execute(query,(drug_id,)) 
+                    db.connection.commit()
+        flash(f'Лекарство {drug_name} успешно удалено', 'success')
+    except:
+        db.connection.rollback()
+        flash(f'Ошибка при удалении лекарства {drug_name}', 'danger')    
+    return redirect(url_for('drugs'))
+
 
 @app.route('/drugs', methods=['GET','POST'])
 @login_required
 def drugs():
-    query = "SELECT * FROM drug"
+    query = "SELECT * FROM drug WHERE drug.deleted_at IS NULL"
     drugs = []
     query_params = []
     drug = request.form.get('drug')
-    if drug!=None and len(drug)>0:
-        query += " WHERE drug.name = %s"
-        query_params.append(drug)
+    if drug is not None and len(drug) > 0:
+        query += " AND drug.name LIKE %s"
+        query_params.append(f"%{drug}%")
+
     with db.connection.cursor(named_tuple = True) as cursor:
             cursor.execute(query, query_params,)
             drugs = cursor.fetchall()
