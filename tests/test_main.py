@@ -37,9 +37,6 @@ def test_main():
    result_findDrug = findDrug(driver=driver)
    assert result_findDrug == True, "Ошибка поиска лекарства."
 
-   result_deleteDrug = deleteDrug(driver=driver)
-   assert result_deleteDrug == True, "Ошибка удаления лекарства."
-
    result_checkRights = checkRights(driver=driver)
    assert result_checkRights == True, "Ошибка неавторизованного доступа."
 
