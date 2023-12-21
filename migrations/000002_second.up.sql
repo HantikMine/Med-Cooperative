@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS test;
 CREATE TABLE test (
 
     id SERIAL PRIMARY KEY,
@@ -7,5 +8,4 @@ CREATE TABLE test (
     description TEXT,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
 );
