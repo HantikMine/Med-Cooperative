@@ -100,7 +100,7 @@ def create_drug():
                     cursor.execute(query,(cur_params['name'],cur_params['method'],cur_params['assumption'],cur_params['sideeffects'],)) 
                 db.connection.commit()
 
-        flash(f"Лекарство '{cur_params['name']}' успешн добавлено", "success")
+        flash(f"Лекарство '{cur_params['name']}' успешно добавлено", "success")
     except Exception as err:
         db.connection.rollback()
         print(err)
