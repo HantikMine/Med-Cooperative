@@ -29,7 +29,7 @@ def test_main():
    driver.get(HOST_IP)
 
    result_login = login(driver=driver)
-   assert result_login == True, "Ошибка аунтефикации."
+   assert result_login == True, "Ошибка аутентификации."
 
    result_addDrug = addDrug(driver=driver)
    assert result_addDrug == True, "Ошибка добавления лекарства."
