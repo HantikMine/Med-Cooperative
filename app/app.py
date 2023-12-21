@@ -4,6 +4,16 @@ from datetime import datetime
 from mysql_db import MySQL
 import mysql.connector
 
+from prometheus_client import generate_latest
+from prometheus_client import Counter
+from prometheus_client import Summary
+
+# Create a metric to track time spent and requests made.
+INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
+
+# Create a metric to count the number of runs on process_request()
+c = Counter('requests_for_host', 'Number of runs of the process_request method', ['method', 'endpoint'])
+
 app = Flask(__name__)
 application = app
 
@@ -17,7 +27,13 @@ init_login_manager(app)
 app.register_blueprint(bp_auth)
 
 @app.route('/')
+@INDEX_TIME.time()
 def index():
+    path = str(request.path)
+    verb = request.method
+    label_dict = {"method": verb,
+                 "endpoint": path}
+    c.labels(**label_dict).inc()
     return render_template('index.html')
 
 
@@ -142,3 +158,17 @@ def drugs():
             cursor.execute(query, query_params,)
             drugs = cursor.fetchall()
     return render_template('drugs.html', drugs = drugs, drug=drug)
+
+@app.route('/test')
+@INDEX_TIME.time()
+def index():
+    path = str(request.path)
+    verb = request.method
+    label_dict = {"method": verb,
+                 "endpoint": path}
+    c.labels(**label_dict).inc()
+    return render_template('index.html')
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
