@@ -8,14 +8,14 @@ from prometheus_client import generate_latest
 from prometheus_client import Counter
 from prometheus_client import Summary
 
+app = Flask(__name__)
+application = app
 # Create a metric to track time spent and requests made.
 INDEX_TIME = Summary('index_request_processing_seconds', 'DESC: INDEX time spent processing request')
 
 # Create a metric to count the number of runs on process_request()
 c = Counter('requests_for_host', 'Number of runs of the process_request method', ['method', 'endpoint'])
 
-app = Flask(__name__)
-application = app
 
 PERMITTED_PARAMS = ["name", "method", "assumption", "sideeffects"]
 
@@ -28,7 +28,7 @@ app.register_blueprint(bp_auth)
 
 @app.route('/')
 @INDEX_TIME.time()
-def index():
+def test():
     path = str(request.path)
     verb = request.method
     label_dict = {"method": verb,
